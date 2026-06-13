@@ -1,0 +1,22 @@
+[Unit]
+Description=Gmail Notification Blocker - important-email Telegram alerter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=gmailalert
+Group=gmailalert
+WorkingDirectory=/opt/gmail-notification-blocker
+# Secrets live here, root-owned, chmod 600 — NOT in this unit file.
+EnvironmentFile=/etc/gmail-notification-blocker.env
+ExecStart=/usr/bin/java -jar /opt/gmail-notification-blocker/target/gmail-notification-blocker.jar
+Restart=always
+RestartSec=10
+# Light hardening
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
